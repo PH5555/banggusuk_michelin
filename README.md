@@ -1,1 +1,0 @@
-# banggusuk_michelin
