@@ -1,6 +1,8 @@
 package com.example.banggusuk_michelin.service;
 
+import com.example.banggusuk_michelin.Repository.UserRepository;
 import com.example.banggusuk_michelin.dto.KakaoUserInfoResponse;
+import com.example.banggusuk_michelin.entity.User;
 import jdk.jshell.spi.ExecutionControl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class KakaoAuthService {
     @Transactional(readOnly = true)
     public Long isSignedUp(String token) {
         KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(token);
-        User user = userRepository.findByKeyCode(userInfo.getId().toString()).orElseThrow(() -> new ExecutionControl.UserException(ResponseCode.USER_NOT_FOUND));
+        User user = userRepository.findByKeyCode(userInfo.getId().toString());
         return user.getId();
     }
 }

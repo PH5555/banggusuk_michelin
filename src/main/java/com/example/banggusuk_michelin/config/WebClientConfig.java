@@ -1,4 +1,4 @@
-package com.example.banggusuk_michelin;
+package com.example.banggusuk_michelin.config;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
