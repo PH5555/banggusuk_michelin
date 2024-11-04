@@ -1,4 +1,4 @@
-package com.example.banggusuk_michelin;
+package com.example.banggusuk_michelin.apiFormat;
 
 public class ApiBody <T>{
     private T data;

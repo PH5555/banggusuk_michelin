@@ -1,6 +1,6 @@
 package com.example.banggusuk_michelin.controller;
 
-import com.example.banggusuk_michelin.ApiResponse;
+import com.example.banggusuk_michelin.apiFormat.ApiResponse;
 import com.example.banggusuk_michelin.jwt.JwtTokenProvider;
 import com.example.banggusuk_michelin.service.KakaoAuthService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final KakaoAuthService kakaoAuthService;

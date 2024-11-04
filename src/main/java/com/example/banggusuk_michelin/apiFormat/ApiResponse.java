@@ -1,4 +1,4 @@
-package com.example.banggusuk_michelin;
+package com.example.banggusuk_michelin.apiFormat;
 
 public class ApiResponse <T>{
     private static int SUCCESS = 200;
