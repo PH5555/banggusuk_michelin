@@ -1,8 +1,7 @@
 package com.example.banggusuk_michelin.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,8 +11,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity
+@Data
 public class User implements UserDetails {
     // Jwt 전용 설정 (UserDetails 인터페이스 구현)
+
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    private String uid;
 
     @Column(length = 100, nullable = false, unique = true)
     private String keyCode; // 로그인 식별키

@@ -16,9 +16,9 @@ public class KakaoAuthService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public Long isSignedUp(String token) {
+    public String isSignedUp(String token) {
         KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(token);
         User user = userRepository.findByKeyCode(userInfo.getId().toString());
-        return user.getId();
+        return user.getUid();
     }
 }
