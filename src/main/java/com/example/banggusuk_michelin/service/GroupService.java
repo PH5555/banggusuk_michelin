@@ -1,8 +1,11 @@
 package com.example.banggusuk_michelin.service;
 
 import com.example.banggusuk_michelin.Repository.GroupRepository;
+import com.example.banggusuk_michelin.dto.GroupCreationDto;
 import com.example.banggusuk_michelin.dto.GroupVerificationDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -12,6 +15,7 @@ import java.util.Map;
 public class GroupService {
 
     private final GroupRepository groupRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public GroupVerificationDto verifyGroupName(String groupName){
         if(groupName.length() > 30){
@@ -25,13 +29,17 @@ public class GroupService {
         return new GroupVerificationDto(true, "검증 완료");
     }
 
-    public Map<String, String> createGroup(String groupName){
-        if(!verifyGroupName(groupName).getStatus()){
+    public Map<String, String> createGroup(GroupCreationDto groupCreationDto){
+        if(!verifyGroupName(groupCreationDto.getGroupName()).getStatus()){
             return Map.of();
         }
 
-        //TODO: 비밀번호 생성
-    }
+        // 파일 url로 변경
 
-    //비밀번호 만들기
+        String password = groupCreationDto.getPassword();
+        String hashedPassword = passwordEncoder.encode(password);
+
+
+
+    }
 }
