@@ -17,7 +17,11 @@ public class GroupRepository {
     public Optional<Group> findByGroupName(String groupName) {
         TypedQuery<Group> query = em.createQuery("select g from Group g where group_name = :groupName", Group.class);
         query.setParameter("groupName", groupName);
-        Optional<Group> result = query.getResultList().stream().findAny();
-        return result;
+        return query.getResultList().stream().findAny();
+    }
+
+    public Group save(Group group){
+        em.persist(group);
+        return group;
     }
 }

@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: banggusuk_michelin
+  cloud:
+    gcp:
+      storage:
+        credentials:
+          location: classpath:tokyo-flames-441110-n9-52d8ce97de12.json
+        project-id: tokyo-flames-441110-n9
+        bucket: banggusuk_michelin
+
+

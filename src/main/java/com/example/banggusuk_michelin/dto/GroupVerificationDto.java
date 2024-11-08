@@ -8,4 +8,9 @@ import lombok.Setter;
 public class GroupVerificationDto {
     private Boolean status;
     private String message;
+
+    public GroupVerificationDto(Boolean status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 }
