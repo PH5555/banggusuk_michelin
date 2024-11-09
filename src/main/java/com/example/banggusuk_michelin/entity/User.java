@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
+@Table(name = "member")
 public class User implements UserDetails {
     // Jwt 전용 설정 (UserDetails 인터페이스 구현)
 
