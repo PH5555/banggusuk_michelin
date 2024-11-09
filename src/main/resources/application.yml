@@ -1,6 +1,7 @@
 spring:
   application:
     name: banggusuk_michelin
+
   cloud:
     gcp:
       storage:

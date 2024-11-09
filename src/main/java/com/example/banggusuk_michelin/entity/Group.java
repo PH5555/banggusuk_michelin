@@ -13,7 +13,7 @@ public class Group {
     @Column(unique = true, length = 30, nullable = false)
     private String groupName;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 100, nullable = false)
     private String password;
 
     @Column()

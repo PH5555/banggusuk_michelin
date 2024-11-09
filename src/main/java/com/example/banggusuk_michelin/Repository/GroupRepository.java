@@ -15,16 +15,19 @@ public class GroupRepository {
     public GroupRepository(EntityManager em) {
         this.em = em;
     }
-    @Transactional
+
     public Optional<Group> findByGroupName(String groupName) {
         TypedQuery<Group> query = em.createQuery("select g from groups g where groupName = :groupName", Group.class);
         query.setParameter("groupName", groupName);
         return query.getResultList().stream().findAny();
     }
 
-    @Transactional
     public Group save(Group group){
         em.persist(group);
         return group;
+    }
+
+    public Optional<Group> findGroupById(String groupId){
+        return Optional.of(em.find(Group.class, groupId));
     }
 }

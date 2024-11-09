@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -59,15 +60,12 @@ public class GroupService {
         return uuid;
     }
 
+    @Transactional
     public Map<String, String> createGroup(GroupCreationDto groupCreationDto){
-        String imageUrl = "";
         if(!verifyGroupName(groupCreationDto.getGroupName()).getStatus()){
             return Map.of();
         }
 
-        if(!groupCreationDto.getGroupImage().isEmpty()){
-            imageUrl = uploadImage(groupCreationDto);
-        }
         String password = groupCreationDto.getPassword();
         String hashedPassword = passwordEncoder.encode(password);
 
@@ -75,8 +73,8 @@ public class GroupService {
         group.setGroupName(groupCreationDto.getGroupName());
         group.setPassword(hashedPassword);
 
-        if(imageUrl.isEmpty()){
-            group.setImage(imageUrl);
+        if(groupCreationDto.getGroupImage() != null){
+            group.setImage(uploadImage(groupCreationDto));
         }
 
         Group savedGroup = groupRepository.save(group);
