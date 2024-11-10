@@ -20,6 +20,7 @@ public class FileTest {
     @Autowired
     private GroupService groupService;
 
+    //TODO: 환경변수 넣고 다시 테스트
     @Test
     void fileUploadTest(){
 
