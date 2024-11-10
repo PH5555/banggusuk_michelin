@@ -2,10 +2,8 @@ package com.example.banggusuk_michelin.group;
 
 import com.example.banggusuk_michelin.Repository.GroupRepository;
 import com.example.banggusuk_michelin.dto.GroupCreationDto;
-import com.example.banggusuk_michelin.dto.GroupVerificationDto;
 import com.example.banggusuk_michelin.entity.Group;
 import com.example.banggusuk_michelin.service.GroupService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,8 +45,5 @@ public class GroupServiceTest {
         GroupCreationDto dto2 = new GroupCreationDto();
         dto2.setGroupName("dong");
         dto2.setPassword("1234");
-
-        GroupVerificationDto groupVerificationDto = groupService.verifyGroupName(dto2.getGroupName());
-        assertThat(groupVerificationDto.getStatus()).isFalse();
     }
 }

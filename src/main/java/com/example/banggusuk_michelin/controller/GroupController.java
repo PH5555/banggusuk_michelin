@@ -21,4 +21,13 @@ public class GroupController {
         Map<String, String> data = groupService.createGroup(groupCreationDto);
         return ApiResponse.success(data);
     }
+
+    @GetMapping("/verify")
+    public ApiResponse<Map<String, String>> verifyGroupName(String groupName){
+        try{
+            return ApiResponse.success(groupService.verifyGroupName(groupName));
+        } catch (Exception e){
+            return ApiResponse.fail(Map.of("message", e.getMessage()));
+        }
+    }
 }
