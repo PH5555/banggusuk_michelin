@@ -3,6 +3,9 @@ package com.example.banggusuk_michelin.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "groups")
 @Data
 @Table(name = "groups")
