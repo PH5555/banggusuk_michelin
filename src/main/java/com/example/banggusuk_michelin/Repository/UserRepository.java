@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class UserRepository {
     private final EntityManager em;
@@ -14,7 +16,12 @@ public class UserRepository {
         this.em = em;
     }
 
-    public User findByKeyCode(String keyCode){
-        return em.find(User.class, keyCode);
+    public Optional<User> findByKeyCode(String keyCode){
+        return Optional.ofNullable(em.find(User.class, keyCode));
+    }
+
+    public User save(User user){
+        em.persist(user);
+        return user;
     }
 }

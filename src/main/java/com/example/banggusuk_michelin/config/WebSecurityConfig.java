@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfig {
 
-    private final JwtTokenProvider jwtTokenProvider;
+//    private final JwtTokenProvider jwtTokenProvider;
 
 //    @Bean
 //    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -30,7 +30,7 @@ public class WebSecurityConfig {
 //                })
 //                .authorizeHttpRequests((authorizeRequest) -> {
 //                    // 회원가입, 로그인 관련 API는 Jwt 인증 없이 접근 가능
-//                    authorizeRequest.requestMatchers("/api/auth/**").permitAll();
+//                    authorizeRequest.requestMatchers("/auth/**").permitAll();
 //                    authorizeRequest.requestMatchers("/h2-console").permitAll();
 //                    // 나머지 모든 API는 Jwt 인증 필요
 //                    authorizeRequest.anyRequest().authenticated();

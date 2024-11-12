@@ -33,6 +33,9 @@ public class User implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    @Column()
+    private String nickname;
+
     @Override
     public String getUsername() {
         return keyCode;
@@ -62,10 +65,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    // Jwt 전용 설정 종료
-
-
-    // 그 외 유저의 다른 속성 및 메서드...
 
 }
