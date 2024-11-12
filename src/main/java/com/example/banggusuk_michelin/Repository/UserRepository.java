@@ -1,5 +1,6 @@
 package com.example.banggusuk_michelin.Repository;
 
+import com.example.banggusuk_michelin.entity.Group;
 import com.example.banggusuk_michelin.entity.User;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

@@ -33,6 +33,9 @@ public class User implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    @OneToMany(mappedBy = "user")
+    private List<UserGroup> group = new ArrayList<>();
+
     @Override
     public String getUsername() {
         return keyCode;

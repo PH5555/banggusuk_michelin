@@ -1,23 +1,24 @@
 package com.example.banggusuk_michelin.service;
 
 import com.example.banggusuk_michelin.Repository.GroupRepository;
+import com.example.banggusuk_michelin.Repository.UserGroupRepository;
 import com.example.banggusuk_michelin.dto.GroupCreationDto;
-import com.example.banggusuk_michelin.dto.GroupVerificationDto;
+import com.example.banggusuk_michelin.dto.GroupJoinDto;
 import com.example.banggusuk_michelin.entity.Group;
+import com.example.banggusuk_michelin.entity.User;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,17 +30,18 @@ public class GroupService {
     private final Storage storage;
     private final GroupRepository groupRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserGroupRepository userGroupRepository;
 
-    public GroupVerificationDto verifyGroupName(String groupName){
+    public Map<String, String> verifyGroupName(String groupName){
         if(groupName.length() > 30){
-            return new GroupVerificationDto(false, "그룹 이름은 30자를 넘으면 안됩니다.");
+            throw new IllegalArgumentException("그룹 이름은 30자를 넘으면 안됩니다.");
         }
 
         if(groupRepository.findByGroupName(groupName).isPresent()){
-            return new GroupVerificationDto(false, "그룹 이름이 중복됩니다.");
+            throw new IllegalArgumentException("그룹 이름이 중복됩니다.");
         }
 
-        return new GroupVerificationDto(true, "검증 완료");
+        return Map.of("message", "검증완료");
     }
 
     public String uploadImage(GroupCreationDto groupCreationDto){
@@ -62,8 +64,10 @@ public class GroupService {
 
     @Transactional
     public Map<String, String> createGroup(GroupCreationDto groupCreationDto){
-        if(!verifyGroupName(groupCreationDto.getGroupName()).getStatus()){
-            return Map.of();
+        try{
+            verifyGroupName(groupCreationDto.getGroupName());
+        }catch (Exception e){
+            return Map.of("message", e.getMessage());
         }
 
         String password = groupCreationDto.getPassword();
@@ -78,6 +82,31 @@ public class GroupService {
         }
 
         Group savedGroup = groupRepository.save(group);
+
+//        userGroupRepository.save(user, savedGroup);
+        //TODO: UserGroup에 group과 userid저장
         return Map.of("groupId", savedGroup.getGroupId());
+    }
+
+    @Transactional
+    public Map<String, String> joinGroup(GroupJoinDto groupJoinDto) throws Exception {
+        Optional<Group> group = groupRepository.findByGroupName(groupJoinDto.getGroupName());
+
+        if(group.isEmpty()){
+            throw new Exception("존재하지 않는 그룹입니다.");
+        }
+
+//        if(userGroupRepository.findGroupInUser(user, group)){
+//            throw new Exception("이미 가입한 그룹입니다.");
+//        }
+
+        if(!passwordEncoder.matches(groupJoinDto.getPassword(), group.get().getPassword())){
+            throw new Exception("비밀번호가 일치하지 않습니다.");
+        }
+
+//      userGroupRepository.save(user, group);
+        //TODO: UserGroup에 group과 userid저장
+
+        return Map.of("groupId", group.get().getGroupId());
     }
 }
