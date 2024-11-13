@@ -9,6 +9,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,11 +26,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class KakaoService {
     private final UserRepository userRepository;
     private final KakaoUserInfo kakaoUserInfo;
     private final JwtTokenProvider jwtTokenProvider;
-
 
     @Value("${kakao.key.client-id}")
     private String clientId;
@@ -91,6 +92,7 @@ public class KakaoService {
         String nickname = userInfo.getKakao_account().getProfile().getNickname();
 
         Optional<User> user = userRepository.findByKeyCode(userInfo.getId().toString());
+
         String uid;
         if (user.isEmpty()) {
             User newUser = new User();

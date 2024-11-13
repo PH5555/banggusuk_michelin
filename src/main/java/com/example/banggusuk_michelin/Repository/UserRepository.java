@@ -3,6 +3,7 @@ package com.example.banggusuk_michelin.Repository;
 import com.example.banggusuk_michelin.entity.Group;
 import com.example.banggusuk_michelin.entity.User;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,8 +18,10 @@ public class UserRepository {
         this.em = em;
     }
 
-    public Optional<User> findByKeyCode(String keyCode){
-        return Optional.ofNullable(em.find(User.class, keyCode));
+    public Optional<User> findByKeyCode(String keyCode) {
+        TypedQuery<User> query = em.createQuery("select u from User u where keyCode = :keyCode", User.class);
+        query.setParameter("keyCode", keyCode);
+        return query.getResultList().stream().findAny();
     }
 
     public User save(User user){
