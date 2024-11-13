@@ -34,3 +34,8 @@ spring:
     username: sa  # H2 접속 시 입력할 username 정보 (원하는 것으로 입력)
     password:  # H2 접속 시 입력할 password 정보 (원하는 것으로 입력)
 
+kakao:
+  key:
+    client-id: 56834518a399e1ca8247d5f53449c20a
+  redirect-uri: https://react-kakao-login-dkwic.run-ap-south1.goorm.site
+
