@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                     authorizeRequest.requestMatchers("/h2-console").permitAll();
                     authorizeRequest.requestMatchers("/error").permitAll();
                     // 나머지 모든 API는 Jwt 인증 필요
+                    authorizeRequest.anyRequest().authenticated();
                 })
                 // Http 요청에 대한 Jwt 유효성 선 검사
                 .addFilterBefore(new JwtAuthFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

@@ -6,6 +6,7 @@ import com.example.banggusuk_michelin.dto.GroupCreationDto;
 import com.example.banggusuk_michelin.dto.GroupJoinDto;
 import com.example.banggusuk_michelin.entity.Group;
 import com.example.banggusuk_michelin.entity.User;
+import com.example.banggusuk_michelin.entity.UserGroup;
 import com.google.cloud.WriteChannel;
 import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
@@ -63,7 +64,7 @@ public class GroupService {
     }
 
     @Transactional
-    public Map<String, String> createGroup(GroupCreationDto groupCreationDto){
+    public Map<String, Object> createGroup(GroupCreationDto groupCreationDto, User user){
         try{
             verifyGroupName(groupCreationDto.getGroupName());
         }catch (Exception e){
@@ -82,31 +83,28 @@ public class GroupService {
         }
 
         Group savedGroup = groupRepository.save(group);
+        UserGroup userGroup = userGroupRepository.save(user, savedGroup);
 
-//        userGroupRepository.save(user, savedGroup);
-        //TODO: UserGroup에 group과 userid저장
-        return Map.of("groupId", savedGroup.getGroupId());
+        return Map.of("groupId", savedGroup.getGroupId(), "user_group_id", userGroup.getId());
     }
 
     @Transactional
-    public Map<String, String> joinGroup(GroupJoinDto groupJoinDto) throws Exception {
+    public Map<String, Object> joinGroup(GroupJoinDto groupJoinDto, User user) throws Exception {
         Optional<Group> group = groupRepository.findByGroupName(groupJoinDto.getGroupName());
 
         if(group.isEmpty()){
             throw new Exception("존재하지 않는 그룹입니다.");
         }
 
-//        if(userGroupRepository.findGroupInUser(user, group)){
-//            throw new Exception("이미 가입한 그룹입니다.");
-//        }
+        if(userGroupRepository.findGroupInUser(user, group.get())){
+            throw new Exception("이미 가입한 그룹입니다.");
+        }
 
         if(!passwordEncoder.matches(groupJoinDto.getPassword(), group.get().getPassword())){
             throw new Exception("비밀번호가 일치하지 않습니다.");
         }
 
-//      userGroupRepository.save(user, group);
-        //TODO: UserGroup에 group과 userid저장
-
-        return Map.of("groupId", group.get().getGroupId());
+        UserGroup userGroup = userGroupRepository.save(user, group.get());
+        return Map.of("group_id", group.get().getGroupId(), "user_group_id", userGroup.getId());
     }
 }

@@ -41,6 +41,7 @@ public class GroupRepositoryTest {
         Group savedGroup = groupRepository.save(group);
         Optional<Group> findGroup = groupRepository.findGroupById(savedGroup.getGroupId());
         assertThat(findGroup.get()).isEqualTo(group);
-
     }
+
+
 }
