@@ -1,5 +1,8 @@
 package com.example.banggusuk_michelin.apiFormat;
 
+import lombok.Getter;
+
+@Getter
 public class ApiResponse <T>{
     private final static String SUCCESS = "success";
     private final static String FAIL = "fail";

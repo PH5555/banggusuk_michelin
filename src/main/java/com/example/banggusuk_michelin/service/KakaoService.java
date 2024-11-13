@@ -2,6 +2,7 @@ package com.example.banggusuk_michelin.service;
 
 import com.example.banggusuk_michelin.Repository.UserRepository;
 import com.example.banggusuk_michelin.dto.KakaoUserInfoResponse;
+import com.example.banggusuk_michelin.dto.LoginDto;
 import com.example.banggusuk_michelin.entity.User;
 import com.example.banggusuk_michelin.jwt.JwtTokenProvider;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
@@ -35,10 +37,11 @@ public class KakaoService {
     @Value("${kakao.redirect-uri}")
     private String redirectUri;
 
-    public Map<String, Object> login(String code) {
+    @Transactional
+    public Map<String, Object> login(LoginDto loginDto) {
 
         // 1. "인가 코드"로 "액세스 토큰" 요청
-        String accessToken = getAccessToken(code, redirectUri);
+        String accessToken = getAccessToken(loginDto.getCode(), redirectUri);
 
         // 2. 토큰으로 카카오 API 호출
         KakaoUserInfoResponse userInfo = kakaoUserInfo.getUserInfo(accessToken);
@@ -47,7 +50,7 @@ public class KakaoService {
         return kakaoUserLogin(userInfo);
     }
 
-    private String getAccessToken(String code, String redirectUri) {
+    public String getAccessToken(String code, String redirectUri) {
 
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
@@ -77,12 +80,12 @@ public class KakaoService {
         try {
             jsonNode = objectMapper.readTree(responseBody);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //TODO : code not found 에러 처리
         }
         return jsonNode.get("access_token").asText(); //토큰 전송
     }
 
-    private Map<String, Object> kakaoUserLogin(KakaoUserInfoResponse userInfo){
+    public Map<String, Object> kakaoUserLogin(KakaoUserInfoResponse userInfo){
 
         String keyCode = userInfo.getId().toString();
         String nickname = userInfo.getKakao_account().getProfile().getNickname();
