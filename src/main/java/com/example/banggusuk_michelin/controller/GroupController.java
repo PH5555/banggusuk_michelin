@@ -23,7 +23,11 @@ public class GroupController {
 
     @PostMapping("/create")
     public ApiResponse<Map<String, Object>> createGroup(GroupCreationDto groupCreationDto, @AuthenticationPrincipal User user){
-        return ApiResponse.success(groupService.createGroup(groupCreationDto, user));
+        try{
+            return ApiResponse.success(groupService.createGroup(groupCreationDto, user));
+        }catch(Exception e){
+            return ApiResponse.fail(Map.of("message", e.getMessage()));
+        }
     }
 
     @GetMapping("/verify")

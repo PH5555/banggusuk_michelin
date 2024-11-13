@@ -51,6 +51,7 @@ public class KakaoService {
         return kakaoUserLogin(userInfo);
     }
 
+    // TODO : 코드 리펙토링
     public String getAccessToken(String code, String redirectUri) {
 
         // HTTP Header 생성
@@ -81,7 +82,7 @@ public class KakaoService {
         try {
             jsonNode = objectMapper.readTree(responseBody);
         } catch (JsonProcessingException e) {
-            e.printStackTrace(); //TODO : code not found 에러 처리
+            e.printStackTrace(); // TODO : code not found 에러 처리
         }
         return jsonNode.get("access_token").asText(); //토큰 전송
     }

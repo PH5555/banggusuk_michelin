@@ -68,7 +68,7 @@ public class GroupService {
         try{
             verifyGroupName(groupCreationDto.getGroupName());
         }catch (Exception e){
-            return Map.of("message", e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         String password = groupCreationDto.getPassword();

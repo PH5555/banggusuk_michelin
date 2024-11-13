@@ -45,7 +45,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-//     인증 정보 조회
+    // 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());

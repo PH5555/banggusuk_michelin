@@ -23,6 +23,9 @@ public class UserRepository {
         query.setParameter("keyCode", keyCode);
         return query.getResultList().stream().findAny();
     }
+    public User findByUid(String uid){
+        return em.find(User.class, uid);
+    }
 
     public User save(User user){
         em.persist(user);
