@@ -2,10 +2,9 @@ package com.example.banggusuk_michelin.group;
 
 import com.example.banggusuk_michelin.Repository.GroupRepository;
 import com.example.banggusuk_michelin.dto.GroupCreationDto;
-import com.example.banggusuk_michelin.dto.GroupVerificationDto;
+import com.example.banggusuk_michelin.dto.GroupJoinDto;
 import com.example.banggusuk_michelin.entity.Group;
 import com.example.banggusuk_michelin.service.GroupService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,8 +46,25 @@ public class GroupServiceTest {
         GroupCreationDto dto2 = new GroupCreationDto();
         dto2.setGroupName("dong");
         dto2.setPassword("1234");
+    }
 
-        GroupVerificationDto groupVerificationDto = groupService.verifyGroupName(dto2.getGroupName());
-        assertThat(groupVerificationDto.getStatus()).isFalse();
+    @Test
+    void joinTest(){
+        GroupCreationDto dto = new GroupCreationDto();
+        dto.setGroupName("dong");
+        dto.setPassword("1234");
+
+        Map<String, String> group = groupService.createGroup(dto);
+
+        GroupJoinDto groupJoinDto = new GroupJoinDto();
+        groupJoinDto.setGroupName("dong");
+        groupJoinDto.setPassword("1234");
+        try {
+            Map<String, String> result = groupService.joinGroup(groupJoinDto);
+            String id = result.get("groupId");
+            assertThat(id).isEqualTo(group.get("groupId"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

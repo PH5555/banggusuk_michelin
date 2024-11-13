@@ -7,6 +7,7 @@ public class ApiResponse <T>{
     private final static String SUCCESS = "success";
     private final static String FAIL = "fail";
 
+    @Getter
     private String status;
     private T data;
 
@@ -27,4 +28,5 @@ public class ApiResponse <T>{
     public String toString() {
         return "status : " + this.status + ", data : " + this.data;
     }
+
 }
