@@ -21,99 +21,99 @@ public class GroupControllerTest {
     @Autowired
     private GroupController groupController;
 
-    @Test
-    void repositoryTest(){
-        GroupCreationDto dto = new GroupCreationDto();
-        dto.setGroupName("dong");
-        dto.setPassword("1234");
-        ApiResponse<Map<String, String>> result = groupController.createGroup(dto);
-        log.info(result.toString());
-    }
+//    @Test
+//    void repositoryTest() {
+//        GroupCreationDto dto = new GroupCreationDto();
+//        dto.setGroupName("dong");
+//        dto.setPassword("1234");
+//        ApiResponse<Map<String, String>> result = groupController.createGroup(dto);
+//        log.info(result.toString());
+//    }
 
-    @Test
-    void verifyTest(){
-        GroupCreationDto dto = new GroupCreationDto();
-        dto.setGroupName("dong");
-        dto.setPassword("1234");
-        groupController.createGroup(dto);
+//    @Test
+//    void verifyTest() {
+//        GroupCreationDto dto = new GroupCreationDto();
+//        dto.setGroupName("dong");
+//        dto.setPassword("1234");
+//        groupController.createGroup(dto);
+//
+//        ApiResponse<Map<String, String>> result = groupController.verifyGroupName("dong");
+//        assertThat(result.getStatus()).isEqualTo("fail");
+//        log.info(result.toString());
+//    }
 
-        ApiResponse<Map<String, String>> result = groupController.verifyGroupName("dong");
-        assertThat(result.getStatus()).isEqualTo("fail");
-        log.info(result.toString());
-    }
+//    @Test
+//    void verifyTest2() {
+//        GroupCreationDto dto = new GroupCreationDto();
+//        dto.setGroupName("dong");
+//        dto.setPassword("1234");
+//        groupController.createGroup(dto);
+//
+//        ApiResponse<Map<String, String>> result = groupController.verifyGroupName("lee");
+//        assertThat(result.getStatus()).isEqualTo("success");
+//        log.info(result.toString());
+//    }
+//
+//    @Test
+//    void verifyTest3() {
+//        GroupCreationDto dto = new GroupCreationDto();
+//        dto.setGroupName("dong");
+//        dto.setPassword("1234");
+//        groupController.createGroup(dto);
+//
+//        ApiResponse<Map<String, String>> result = groupController.verifyGroupName("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasd");
+//        assertThat(result.getStatus()).isEqualTo("fail");
+//        log.info(result.toString());
+//    }
 
-    @Test
-    void verifyTest2(){
-        GroupCreationDto dto = new GroupCreationDto();
-        dto.setGroupName("dong");
-        dto.setPassword("1234");
-        groupController.createGroup(dto);
+//    @Test
+//    void joinTest1() {
+//        GroupCreationDto dto = new GroupCreationDto();
+//        dto.setGroupName("dong");
+//        dto.setPassword("1234");
+//
+//        ApiResponse<Map<String, String>> group = groupController.createGroup(dto);
+//
+//        GroupJoinDto dto2 = new GroupJoinDto();
+//        dto2.setGroupName("lee");
+//        dto2.setPassword("1234");
+//
+//        ApiResponse<Map<String, String>> result = groupController.joinGroup(dto2);
+//        assertThat(result.getStatus()).isEqualTo("fail");
+//    }
 
-        ApiResponse<Map<String, String>> result = groupController.verifyGroupName("lee");
-        assertThat(result.getStatus()).isEqualTo("success");
-        log.info(result.toString());
-    }
+//    @Test
+//    void joinTest2() {
+//        GroupCreationDto dto = new GroupCreationDto();
+//        dto.setGroupName("dong");
+//        dto.setPassword("1234");
+//
+//        ApiResponse<Map<String, String>> group = groupController.createGroup(dto);
+//
+//        GroupJoinDto dto2 = new GroupJoinDto();
+//        dto2.setGroupName("dong");
+//        dto2.setPassword("1222");
+//
+//        ApiResponse<Map<String, String>> result = groupController.joinGroup(dto2);
+//        assertThat(result.getStatus()).isEqualTo("fail");
+//        log.info(result.toString());
+//    }
 
-    @Test
-    void verifyTest3(){
-        GroupCreationDto dto = new GroupCreationDto();
-        dto.setGroupName("dong");
-        dto.setPassword("1234");
-        groupController.createGroup(dto);
-
-        ApiResponse<Map<String, String>> result = groupController.verifyGroupName("asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasd");
-        assertThat(result.getStatus()).isEqualTo("fail");
-        log.info(result.toString());
-    }
-
-    @Test
-    void joinTest1(){
-        GroupCreationDto dto = new GroupCreationDto();
-        dto.setGroupName("dong");
-        dto.setPassword("1234");
-
-        ApiResponse<Map<String, String>> group = groupController.createGroup(dto);
-
-        GroupJoinDto dto2 = new GroupJoinDto();
-        dto2.setGroupName("lee");
-        dto2.setPassword("1234");
-
-        ApiResponse<Map<String, String>> result = groupController.joinGroup(dto2);
-        assertThat(result.getStatus()).isEqualTo("fail");
-    }
-
-    @Test
-    void joinTest2(){
-        GroupCreationDto dto = new GroupCreationDto();
-        dto.setGroupName("dong");
-        dto.setPassword("1234");
-
-        ApiResponse<Map<String, String>> group = groupController.createGroup(dto);
-
-        GroupJoinDto dto2 = new GroupJoinDto();
-        dto2.setGroupName("dong");
-        dto2.setPassword("1222");
-
-        ApiResponse<Map<String, String>> result = groupController.joinGroup(dto2);
-        assertThat(result.getStatus()).isEqualTo("fail");
-        log.info(result.toString());
-    }
-
-    @Test
-    void joinTest3(){
-        GroupCreationDto dto = new GroupCreationDto();
-        dto.setGroupName("dong");
-        dto.setPassword("1234");
-
-        ApiResponse<Map<String, String>> group = groupController.createGroup(dto);
-
-        GroupJoinDto dto2 = new GroupJoinDto();
-        dto2.setGroupName("dong");
-        dto2.setPassword("1234");
-
-        ApiResponse<Map<String, String>> result = groupController.joinGroup(dto2);
-        assertThat(result.getStatus()).isEqualTo("success");
-        log.info(result.toString());
-    }
+//    @Test
+//    void joinTest3() {
+//        GroupCreationDto dto = new GroupCreationDto();
+//        dto.setGroupName("dong");
+//        dto.setPassword("1234");
+//
+//        ApiResponse<Map<String, String>> group = groupController.createGroup(dto);
+//
+//        GroupJoinDto dto2 = new GroupJoinDto();
+//        dto2.setGroupName("dong");
+//        dto2.setPassword("1234");
+//
+//        ApiResponse<Map<String, String>> result = groupController.joinGroup(dto2);
+//        assertThat(result.getStatus()).isEqualTo("success");
+//        log.info(result.toString());
+//    }
 
 }

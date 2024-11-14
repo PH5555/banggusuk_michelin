@@ -21,9 +21,8 @@ public class UserGroupRepository {
         return userGroup;
     }
 
-    //TODO: need test
     public boolean findGroupInUser(User user, Group group){
-        Query query = em.createQuery("select ug from user_group ug where groups = :group and user = :user");
+        Query query = em.createQuery("select ug from UserGroup ug where groups = :group and user = :user");
         query.setParameter("user", user);
         query.setParameter("group", group);
 

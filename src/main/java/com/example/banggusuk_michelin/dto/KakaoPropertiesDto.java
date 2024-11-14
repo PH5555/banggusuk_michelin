@@ -3,7 +3,7 @@ package com.example.banggusuk_michelin.dto;
 import lombok.Getter;
 
 @Getter
-public class KakaoProperties {
+public class KakaoPropertiesDto {
 
     private String nickname;
     private String profile_image;

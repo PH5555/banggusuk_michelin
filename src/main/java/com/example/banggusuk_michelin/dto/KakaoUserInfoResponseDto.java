@@ -3,10 +3,10 @@ package com.example.banggusuk_michelin.dto;
 import lombok.Getter;
 
 @Getter
-public class KakaoUserInfoResponse {
+public class KakaoUserInfoResponseDto {
 
     private Long id;
     private String connected_at;
-    private KakaoProperties properties;
-    private KakaoAccount kakao_account;
+    private KakaoPropertiesDto properties;
+    private KakaoAccountDto kakao_account;
 }
