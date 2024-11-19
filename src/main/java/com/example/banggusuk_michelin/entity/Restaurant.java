@@ -1,12 +1,16 @@
 package com.example.banggusuk_michelin.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Setter
 public class Restaurant {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int restaurantId;
@@ -26,4 +30,12 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant")
     private List<RestaurantComment> comments = new ArrayList<>();
+
+    public Restaurant() {
+    }
+
+    public Restaurant(String restaurantName, String restaurantAddress) {
+        this.restaurantName = restaurantName;
+        this.restaurantAddress = restaurantAddress;
+    }
 }

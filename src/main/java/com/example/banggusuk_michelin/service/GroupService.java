@@ -7,31 +7,21 @@ import com.example.banggusuk_michelin.dto.GroupJoinDto;
 import com.example.banggusuk_michelin.entity.Group;
 import com.example.banggusuk_michelin.entity.User;
 import com.example.banggusuk_michelin.entity.UserGroup;
-import com.google.cloud.WriteChannel;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.ByteBuffer;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class GroupService {
-
-    @Value("${spring.cloud.gcp.storage.bucket}")
-    private String bucketName;
-    private final Storage storage;
     private final GroupRepository groupRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserGroupRepository userGroupRepository;
+    private final GoogleStorageService googleStorageService;
 
     public Map<String, String> verifyGroupName(String groupName){
         if(groupName.length() > 30){
@@ -43,24 +33,6 @@ public class GroupService {
         }
 
         return Map.of("message", "검증완료");
-    }
-
-    public String uploadImage(GroupCreationDto groupCreationDto){
-        String uuid = UUID.randomUUID().toString();
-        String ext = groupCreationDto.getGroupImage().getContentType();
-
-        BlobId blobId = BlobId.of(bucketName, uuid);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-                .setContentType(ext)
-                .build();
-        try (WriteChannel writer = storage.writer(blobInfo)) {
-            byte[] imageData = groupCreationDto.getGroupImage().getBytes(); // 이미지 데이터를 byte 배열로 읽어옵니다.
-            writer.write(ByteBuffer.wrap(imageData));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return uuid;
     }
 
     @Transactional
@@ -79,7 +51,7 @@ public class GroupService {
         group.setPassword(hashedPassword);
 
         if(groupCreationDto.getGroupImage() != null){
-            group.setImage(uploadImage(groupCreationDto));
+            group.setImage(googleStorageService.uploadImage(groupCreationDto.getGroupImage()));
         }
 
         Group savedGroup = groupRepository.save(group);

@@ -20,4 +20,14 @@ public class RestaurantComment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
+    public RestaurantComment() {
+    }
+
+    public RestaurantComment(String comment, int rating, User user, Restaurant restaurant) {
+        this.comment = comment;
+        this.rating = rating;
+        this.user = user;
+        this.restaurant = restaurant;
+    }
 }
