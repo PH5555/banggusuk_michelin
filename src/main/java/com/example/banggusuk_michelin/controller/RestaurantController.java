@@ -27,7 +27,11 @@ public class RestaurantController {
     }
 
     @GetMapping()
-    public ApiResponse<Map<String, Object>> viewRestaurant(@RequestParam int rating) {
-        return ApiResponse.success(Map.of());
+    public ApiResponse<Object> viewRestaurant(@RequestParam int rating, @RequestParam String groupId) {
+        try {
+            return ApiResponse.success(restaurantService.searchRestaurant(rating, groupId));
+        } catch (Exception e) {
+            return ApiResponse.fail(Map.of("message", e.getMessage()));
+        }
     }
 }

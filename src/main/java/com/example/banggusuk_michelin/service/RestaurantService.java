@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -46,5 +47,14 @@ public class RestaurantService {
                 savedRestaurant));
 
         return Map.of("restaurantId", savedRestaurant.getRestaurantId());
+    }
+
+    @Transactional
+    public List<Restaurant> searchRestaurant(int rating, String groupId) throws Exception {
+        Optional<Group> group = groupRepository.findGroupById(groupId);
+        if(group.isEmpty()){
+            throw new Exception("잘못된 group id");
+        }
+        return restaurantRepository.findInCurrentGroup(group.get(), rating);
     }
 }
