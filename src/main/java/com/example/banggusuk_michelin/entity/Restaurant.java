@@ -9,8 +9,8 @@ import java.util.List;
 
 @Entity
 @Setter
+@Getter
 public class Restaurant {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int restaurantId;

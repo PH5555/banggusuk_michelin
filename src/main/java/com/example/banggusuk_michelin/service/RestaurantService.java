@@ -27,7 +27,7 @@ public class RestaurantService {
 
     @Transactional
     public Map<String, Object> createRestaurant(RestaurantCreationDto restaurantCreationDto, User user) throws Exception {
-        Restaurant restaurant = new Restaurant(restaurantCreationDto.getAddress(), restaurantCreationDto.getRestaurantName());
+        Restaurant restaurant = new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress());
 
         Optional<Group> group = groupRepository.findGroupById(restaurantCreationDto.getGroupId());
         if(group.isEmpty()){
@@ -37,8 +37,8 @@ public class RestaurantService {
         restaurant.setGroup(group.get());
         Restaurant savedRestaurant = restaurantRepository.save(restaurant);
 
-        restaurantCreationDto.getImages().parallelStream().forEach(file ->
-                restaurantImageRepository.save(new RestaurantImage(savedRestaurant, googleStorageService.uploadImage(file))));
+//        restaurantCreationDto.getImages().parallelStream().forEach(file ->
+//                restaurantImageRepository.save(new RestaurantImage(savedRestaurant, googleStorageService.uploadImage(file))));
 
         restaurantCommentRepository.save(new RestaurantComment(
                 restaurantCreationDto.getComment(),

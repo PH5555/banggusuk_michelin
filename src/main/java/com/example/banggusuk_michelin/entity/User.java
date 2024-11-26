@@ -37,7 +37,7 @@ public class User implements UserDetails {
     @Column()
     private String nickname;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserGroup> group = new ArrayList<>();
 
     @Override

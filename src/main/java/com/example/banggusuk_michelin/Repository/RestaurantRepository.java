@@ -23,6 +23,10 @@ public class RestaurantRepository {
         return restaurant;
     }
 
+    public Restaurant findById(int id){
+        return em.find(Restaurant.class, id);
+    }
+
     public List<Restaurant> findInCurrentGroup(Group group, int rating){
         TypedQuery<Restaurant> query = em.createQuery("select r from Restaurant r join r.comments rc " +
                 "where r.group = :group group by r having avg(rc.rating) >= :rating", Restaurant.class);

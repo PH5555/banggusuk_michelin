@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class RestaurantImage {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
