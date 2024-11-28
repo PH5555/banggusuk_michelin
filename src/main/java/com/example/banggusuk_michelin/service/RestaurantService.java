@@ -30,15 +30,18 @@ public class RestaurantService {
     @Transactional
     public Map<String, Object> createRestaurant(RestaurantCreationDto restaurantCreationDto, User user) throws Exception {
         //TODO: 해당 레스토랑 검색
-        Restaurant restaurant = new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress());
+        Optional<Restaurant> restaurant = restaurantRepository.findByAddress(restaurantCreationDto.getAddress());
+        if(restaurant.isEmpty()){
+            restaurant = Optional.of(new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress()));
+        }
 
         Optional<Group> group = groupRepository.findGroupById(restaurantCreationDto.getGroupId());
         if(group.isEmpty()){
             throw new Exception("잘못된 group id");
         }
 
-        restaurant.setGroup(group.get());
-        Restaurant savedRestaurant = restaurantRepository.save(restaurant);
+        restaurant.get().setGroup(group.get());
+        Restaurant savedRestaurant = restaurantRepository.save(restaurant.get());
 
 //        restaurantCreationDto.getImages().parallelStream().forEach(file ->
 //                restaurantImageRepository.save(new RestaurantImage(savedRestaurant, googleStorageService.uploadImage(file))));
