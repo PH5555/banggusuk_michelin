@@ -96,4 +96,76 @@ public class restaurantServiceTest {
         Restaurant findRestaurant = restaurantRepository.findById(restaurantId);
         assertThat(findRestaurant.getRestaurantName()).isEqualTo(dto.getRestaurantName());
     }
+
+    @MockCustomUser
+    @Transactional
+    @Test
+    void createDuplicateTest() throws Exception {
+
+        //1. 유저 생성
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User principal = (User)authentication.getPrincipal();
+
+        userRepository.save(principal);
+
+        //2. 그룹 생성
+        GroupCreationDto groupCreationDto = new GroupCreationDto();
+        groupCreationDto.setGroupName("testGroup");
+        groupCreationDto.setPassword("1234");
+
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, principal);
+
+        //3. 식당 생성
+        RestaurantCreationDto dto = new RestaurantCreationDto();
+        dto.setRestaurantName("testRestaurant");
+        dto.setAddress("testAddress");
+        dto.setRating(3);
+        dto.setComment("delicious");
+        dto.setGroupId(group.get("groupId").toString());
+
+        Map<String, Object> restaurant = restaurantService.createRestaurant(dto, principal);
+
+        //4. 같은 식당 생성
+        RestaurantCreationDto dto2 = new RestaurantCreationDto();
+        dto2.setRestaurantName("testRestaurant");
+        dto2.setAddress("testAddress");
+        dto2.setRating(2);
+        dto2.setComment("delicious good!");
+        dto2.setGroupId(group.get("groupId").toString());
+
+        Map<String, Object> restaurant2 = restaurantService.createRestaurant(dto2, principal);
+
+        //4. 데이터 검증
+        assertThat(restaurant.get("restaurantId")).isEqualTo(restaurant2.get("restaurantId"));
+    }
+
+    @MockCustomUser
+    @Transactional
+    @Test
+    void createWrongGroupTest() throws Exception {
+
+        //1. 유저 생성
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User principal = (User)authentication.getPrincipal();
+
+        userRepository.save(principal);
+
+        //2. 그룹 생성
+        GroupCreationDto groupCreationDto = new GroupCreationDto();
+        groupCreationDto.setGroupName("testGroup");
+        groupCreationDto.setPassword("1234");
+
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, principal);
+
+        //3. 식당 생성
+        RestaurantCreationDto dto = new RestaurantCreationDto();
+        dto.setRestaurantName("testRestaurant");
+        dto.setAddress("testAddress");
+        dto.setRating(3);
+        dto.setComment("delicious");
+        dto.setGroupId(group.get("groupId").toString() + "1");
+
+        //4. 데이터 검증
+        Assertions.assertThatThrownBy(() -> restaurantService.createRestaurant(dto, principal)).isInstanceOf(Exception.class);
+    }
 }
