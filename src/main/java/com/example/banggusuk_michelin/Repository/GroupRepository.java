@@ -28,6 +28,6 @@ public class GroupRepository {
     }
 
     public Optional<Group> findGroupById(String groupId){
-        return Optional.of(em.find(Group.class, groupId));
+        return Optional.ofNullable(em.find(Group.class, groupId));
     }
 }
