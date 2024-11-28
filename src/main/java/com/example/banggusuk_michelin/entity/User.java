@@ -2,6 +2,8 @@ package com.example.banggusuk_michelin.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,15 +14,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
-@Data
 @Table(name = "member")
 public class User implements UserDetails {
     // Jwt 전용 설정 (UserDetails 인터페이스 구현)
 
     @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Getter
     private String uid;
 
     @Column(length = 100, nullable = false, unique = true)
+    @Setter
     private String keyCode; // 로그인 식별키
 
     @ElementCollection(fetch = FetchType.EAGER) //roles 컬렉션
@@ -35,6 +38,7 @@ public class User implements UserDetails {
 
 
     @Column()
+    @Setter
     private String nickname;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

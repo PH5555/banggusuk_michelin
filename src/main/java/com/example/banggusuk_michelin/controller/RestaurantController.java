@@ -2,6 +2,7 @@ package com.example.banggusuk_michelin.controller;
 
 import com.example.banggusuk_michelin.apiFormat.ApiResponse;
 import com.example.banggusuk_michelin.dto.RestaurantCreationDto;
+import com.example.banggusuk_michelin.dto.RestaurantDto;
 import com.example.banggusuk_michelin.entity.Restaurant;
 import com.example.banggusuk_michelin.entity.User;
 import com.example.banggusuk_michelin.service.RestaurantService;
@@ -34,8 +35,7 @@ public class RestaurantController {
     @GetMapping()
     public ApiResponse<Object> viewRestaurant(@RequestParam("rating") int rating, @RequestParam("groupId") String groupId) {
         try {
-            List<Restaurant> result = restaurantService.searchRestaurant(rating, groupId);
-            log.info(result.get(0).getRestaurantName());
+            List<RestaurantDto> result = restaurantService.searchRestaurant(rating, groupId);
             return ApiResponse.success(result);
         } catch (Exception e) {
             return ApiResponse.fail(Map.of("message", e.getMessage()));

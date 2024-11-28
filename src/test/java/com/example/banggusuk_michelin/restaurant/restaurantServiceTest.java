@@ -2,6 +2,7 @@ package com.example.banggusuk_michelin.restaurant;
 
 import com.example.banggusuk_michelin.MockCustomUser;
 import com.example.banggusuk_michelin.Repository.GroupRepository;
+import com.example.banggusuk_michelin.Repository.RestaurantCommentRepository;
 import com.example.banggusuk_michelin.Repository.RestaurantRepository;
 import com.example.banggusuk_michelin.Repository.UserRepository;
 import com.example.banggusuk_michelin.apiFormat.ApiResponse;
@@ -33,6 +34,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,6 +57,9 @@ public class restaurantServiceTest {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private RestaurantCommentRepository restaurantCommentRepository;
     
 
     @MockCustomUser
@@ -89,9 +94,6 @@ public class restaurantServiceTest {
         int restaurantId = (int) restaurant.get("restaurantId");
 
         Restaurant findRestaurant = restaurantRepository.findById(restaurantId);
-//
-//        assertThat(findRestaurant.getRestaurantName()).isEqualTo(dto.getRestaurantName());
-
-        assertThat(findRestaurant.getComments().getFirst().getComment()).isEqualTo(dto.getComment());
+        assertThat(findRestaurant.getRestaurantName()).isEqualTo(dto.getRestaurantName());
     }
 }

@@ -5,6 +5,7 @@ import com.example.banggusuk_michelin.Repository.RestaurantCommentRepository;
 import com.example.banggusuk_michelin.Repository.RestaurantImageRepository;
 import com.example.banggusuk_michelin.Repository.RestaurantRepository;
 import com.example.banggusuk_michelin.dto.RestaurantCreationDto;
+import com.example.banggusuk_michelin.dto.RestaurantDto;
 import com.example.banggusuk_michelin.entity.*;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,11 @@ public class RestaurantService {
     private final RestaurantImageRepository restaurantImageRepository;
     private final GroupRepository groupRepository;
     private final GoogleStorageService googleStorageService;
+    private final EntityManager em;
 
     @Transactional
     public Map<String, Object> createRestaurant(RestaurantCreationDto restaurantCreationDto, User user) throws Exception {
+        //TODO: 해당 레스토랑 검색
         Restaurant restaurant = new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress());
 
         Optional<Group> group = groupRepository.findGroupById(restaurantCreationDto.getGroupId());
@@ -40,21 +43,26 @@ public class RestaurantService {
 //        restaurantCreationDto.getImages().parallelStream().forEach(file ->
 //                restaurantImageRepository.save(new RestaurantImage(savedRestaurant, googleStorageService.uploadImage(file))));
 
-        restaurantCommentRepository.save(new RestaurantComment(
+        RestaurantComment restaurantComment = new RestaurantComment(
                 restaurantCreationDto.getComment(),
-                restaurantCreationDto.getRating(),
-                user,
-                savedRestaurant));
+                restaurantCreationDto.getRating());
+
+        restaurantComment.setRestaurant(savedRestaurant);
+        restaurantComment.setUser(user);
+
+        restaurantCommentRepository.save(restaurantComment);
+        em.flush();
 
         return Map.of("restaurantId", savedRestaurant.getRestaurantId());
     }
 
     @Transactional
-    public List<Restaurant> searchRestaurant(int rating, String groupId) throws Exception {
+    public List<RestaurantDto> searchRestaurant(int rating, String groupId) throws Exception {
         Optional<Group> group = groupRepository.findGroupById(groupId);
         if(group.isEmpty()){
             throw new Exception("잘못된 group id");
         }
-        return restaurantRepository.findInCurrentGroup(group.get(), rating);
+        List<Restaurant> restaurants = restaurantRepository.findInCurrentGroup(group.get(), rating);
+        return restaurants.parallelStream().map(RestaurantDto::of).toList();
     }
 }

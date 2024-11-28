@@ -28,7 +28,7 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<RestaurantImage> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RestaurantComment> comments = new ArrayList<>();
 
     public Restaurant() {
