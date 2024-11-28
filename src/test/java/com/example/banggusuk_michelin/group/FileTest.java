@@ -1,6 +1,7 @@
 package com.example.banggusuk_michelin.group;
 
 import com.example.banggusuk_michelin.dto.GroupCreationDto;
+import com.example.banggusuk_michelin.service.GoogleStorageService;
 import com.example.banggusuk_michelin.service.GroupService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ import java.io.IOException;
 public class FileTest {
 
     @Autowired
-    private GroupService groupService;
+    private GoogleStorageService googleStorageService;
 
     //TODO: 환경변수 넣고 다시 테스트
     @Test
@@ -41,7 +42,7 @@ public class FileTest {
         dto.setPassword("1234");
         dto.setGroupImage(file);
 
-        String url = groupService.uploadImage(dto);
+        String url = googleStorageService.uploadImage(dto.getGroupImage());
         log.info(url);
     }
 }
