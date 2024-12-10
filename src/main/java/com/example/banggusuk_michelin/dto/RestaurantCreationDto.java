@@ -11,7 +11,7 @@ import java.util.List;
 public class RestaurantCreationDto {
     private String restaurantName;
     private String address;
-    private List<MultipartFile> images;
+    private MultipartFile image;
     private String comment;
     private int rating;
     private String groupId;

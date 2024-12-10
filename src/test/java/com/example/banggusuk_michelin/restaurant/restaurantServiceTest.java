@@ -26,6 +26,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +36,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -78,12 +86,25 @@ public class restaurantServiceTest {
         Map<String, Object> group = groupService.createGroup(groupCreationDto, principal);
 
         //3. 식당 생성
+        MockMultipartFile file = null;
+        try {
+            file = new MockMultipartFile(
+                    "테스트 이미지",
+                    "pika.png",
+                    MediaType.IMAGE_PNG_VALUE,
+                    new FileInputStream(new File("/Users/kimdonghyeon/pika.png"))
+            );
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         RestaurantCreationDto dto = new RestaurantCreationDto();
         dto.setRestaurantName("testRestaurant");
         dto.setAddress("testAddress");
         dto.setRating(3);
         dto.setComment("delicious");
         dto.setGroupId(group.get("groupId").toString());
+        dto.setImage(file);
 
         Map<String, Object> restaurant = restaurantService.createRestaurant(dto, principal);
 

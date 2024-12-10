@@ -21,12 +21,12 @@ public class Restaurant {
     @Column()
     private String restaurantAddress;
 
+    @Column
+    private String image;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
-
-    @OneToMany(mappedBy = "restaurant")
-    private List<RestaurantImage> images = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RestaurantComment> comments = new ArrayList<>();

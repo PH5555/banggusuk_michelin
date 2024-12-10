@@ -31,7 +31,7 @@ public class FileTest {
                     "테스트 이미지",
                     "pika.png",
                     MediaType.IMAGE_PNG_VALUE,
-                    new FileInputStream(new File("C:/pika.png"))
+                    new FileInputStream(new File("/Users/kimdonghyeon/pika.png"))
             );
         } catch (IOException e) {
             throw new RuntimeException(e);
