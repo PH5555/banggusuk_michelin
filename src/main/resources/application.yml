@@ -37,5 +37,5 @@ spring:
 kakao:
   key:
     client-id: 56834518a399e1ca8247d5f53449c20a
-  redirect-uri: https://banggusuk-michelin-wzhif.run.goorm.site/login
+  redirect-uri: https://banggusuk-michelin-wzhif.run.goorm.site
 
