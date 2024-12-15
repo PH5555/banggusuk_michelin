@@ -1,6 +1,13 @@
 spring:
   application:
     name: banggusuk_michelin
+    
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 10MB
+      max-request-size: 200MB
 
   cloud:
     gcp:
