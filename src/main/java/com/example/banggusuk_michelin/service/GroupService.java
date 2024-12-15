@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class GroupService {
     }
 
     @Transactional
-    public Map<String, Object> createGroup(GroupCreationDto groupCreationDto, User user){
+    public Map<String, Object> createGroup(GroupCreationDto groupCreationDto, MultipartFile file, User user){
         try{
             verifyGroupName(groupCreationDto.getGroupName());
         }catch (Exception e){
@@ -50,8 +51,8 @@ public class GroupService {
         group.setGroupName(groupCreationDto.getGroupName());
         group.setPassword(hashedPassword);
 
-        if(groupCreationDto.getGroupImage() != null){
-            group.setImage(googleStorageService.uploadImage(groupCreationDto.getGroupImage()));
+        if(file != null){
+            group.setImage(googleStorageService.uploadImage(file));
         }
 
         Group savedGroup = groupRepository.save(group);

@@ -59,8 +59,7 @@ public class GroupControllerTest {
         GroupCreationDto groupCreationDto = new GroupCreationDto();
         groupCreationDto.setGroupName("test");
         groupCreationDto.setPassword("1234");
-        groupCreationDto.setGroupImage(file);
-        ApiResponse<Map<String, Object>> result = groupController.createGroup(groupCreationDto, principal);
+        ApiResponse<Map<String, Object>> result = groupController.createGroup(groupCreationDto, file, principal);
         Assertions.assertThat(result.getStatus()).isEqualTo("success");
     }
 }

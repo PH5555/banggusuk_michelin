@@ -82,11 +82,10 @@ public class restaurantServiceTest {
         GroupCreationDto groupCreationDto = new GroupCreationDto();
         groupCreationDto.setGroupName("testGroup");
         groupCreationDto.setPassword("1234");
-
-        Map<String, Object> group = groupService.createGroup(groupCreationDto, principal);
+        MockMultipartFile file = null;
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, file, principal);
 
         //3. 식당 생성
-        MockMultipartFile file = null;
         try {
             file = new MockMultipartFile(
                     "테스트 이미지",
@@ -125,13 +124,13 @@ public class restaurantServiceTest {
         User principal = (User)authentication.getPrincipal();
 
         userRepository.save(principal);
-
+        MockMultipartFile file = null;
         //2. 그룹 생성
         GroupCreationDto groupCreationDto = new GroupCreationDto();
         groupCreationDto.setGroupName("testGroup");
         groupCreationDto.setPassword("1234");
 
-        Map<String, Object> group = groupService.createGroup(groupCreationDto, principal);
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, file, principal);
 
         //3. 식당 생성
         RestaurantCreationDto dto = new RestaurantCreationDto();
@@ -172,8 +171,8 @@ public class restaurantServiceTest {
         GroupCreationDto groupCreationDto = new GroupCreationDto();
         groupCreationDto.setGroupName("testGroup");
         groupCreationDto.setPassword("1234");
-
-        Map<String, Object> group = groupService.createGroup(groupCreationDto, principal);
+        MockMultipartFile file = null;
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, file, principal);
 
         //3. 식당 생성
         RestaurantCreationDto dto = new RestaurantCreationDto();
@@ -202,8 +201,8 @@ public class restaurantServiceTest {
         GroupCreationDto groupCreationDto = new GroupCreationDto();
         groupCreationDto.setGroupName("testGroup");
         groupCreationDto.setPassword("1234");
-
-        Map<String, Object> group = groupService.createGroup(groupCreationDto, principal);
+        MockMultipartFile file = null;
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, file, principal);
 
         //3. 식당 생성
         RestaurantCreationDto dto = new RestaurantCreationDto();

@@ -9,6 +9,5 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class GroupCreationDto {
     private String groupName;
-    private MultipartFile groupImage;
     private String password;
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +23,9 @@ public class GroupController {
     private final GroupService groupService;
 
     @PostMapping("/create")
-    public ApiResponse<Map<String, Object>> createGroup(GroupCreationDto groupCreationDto, @AuthenticationPrincipal User user){
+    public ApiResponse<Map<String, Object>> createGroup(GroupCreationDto groupCreationDto, @RequestParam(required = false) MultipartFile file, @AuthenticationPrincipal User user){
         try{
-            return ApiResponse.success(groupService.createGroup(groupCreationDto, user));
+            return ApiResponse.success(groupService.createGroup(groupCreationDto, file, user));
         }catch(Exception e){
             return ApiResponse.fail(Map.of("message", e.getMessage()));
         }
