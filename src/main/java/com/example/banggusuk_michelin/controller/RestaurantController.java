@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -23,10 +24,10 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @PostMapping()
-    public ApiResponse<Map<String, Object>> createRestaurant(RestaurantCreationDto restaurantCreationDto, @AuthenticationPrincipal User user){
+    public ApiResponse<Map<String, Object>> createRestaurant(RestaurantCreationDto restaurantCreationDto, @RequestParam(required = false) MultipartFile file, @AuthenticationPrincipal User user){
         log.info(restaurantCreationDto.getRestaurantName());
         try {
-            return ApiResponse.success(restaurantService.createRestaurant(restaurantCreationDto, user));
+            return ApiResponse.success(restaurantService.createRestaurant(restaurantCreationDto, file, user));
         } catch (Exception e) {
             return ApiResponse.fail(Map.of("message", e.getMessage()));
         }

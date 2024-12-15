@@ -10,6 +10,7 @@ import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -25,12 +26,12 @@ public class RestaurantService {
     private final EntityManager em;
 
     @Transactional
-    public Map<String, Object> createRestaurant(RestaurantCreationDto restaurantCreationDto, User user) throws Exception {
+    public Map<String, Object> createRestaurant(RestaurantCreationDto restaurantCreationDto, MultipartFile file, User user) throws Exception {
         Optional<Restaurant> restaurant = restaurantRepository.findByAddress(restaurantCreationDto.getAddress());
         if(restaurant.isEmpty()){
             Restaurant newRestaurant = new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress());
-            if(restaurantCreationDto.getImage() != null){
-                newRestaurant.setImage(googleStorageService.uploadImage(restaurantCreationDto.getImage()));
+            if(!file.isEmpty()){
+                newRestaurant.setImage(googleStorageService.uploadImage(file));
             }
             restaurant = Optional.of(newRestaurant);
         }
