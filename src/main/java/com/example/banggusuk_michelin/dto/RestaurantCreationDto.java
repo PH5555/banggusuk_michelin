@@ -14,4 +14,6 @@ public class RestaurantCreationDto {
     private String comment;
     private int rating;
     private String groupId;
+    private String latitude;
+    private String longitude;
 }
