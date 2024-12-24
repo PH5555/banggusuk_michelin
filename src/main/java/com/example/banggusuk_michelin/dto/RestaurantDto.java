@@ -13,13 +13,18 @@ import java.util.List;
 public class RestaurantDto {
     private final String restaurantName;
     private final String restaurantAddress;
-//    private final String images;
+    private final String images;
+    private final String latitude;
+    private final String longitude;
     private final List<RestaurantCommentDto> restaurantCommentDto;
 
     public static RestaurantDto of(Restaurant restaurant){
         return new RestaurantDto(
                 restaurant.getRestaurantName(),
                 restaurant.getRestaurantAddress(),
+                restaurant.getImage(),
+                restaurant.getLatitude(),
+                restaurant.getLongitude(),
                 restaurant.getComments().stream().map(comment -> RestaurantCommentDto.of(comment, comment.getUser())).toList()
         );
     }

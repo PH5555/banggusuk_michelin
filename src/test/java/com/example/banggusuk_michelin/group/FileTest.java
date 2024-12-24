@@ -40,9 +40,9 @@ public class FileTest {
         GroupCreationDto dto = new GroupCreationDto();
         dto.setGroupName("dong");
         dto.setPassword("1234");
-        dto.setGroupImage(file);
-
-        String url = googleStorageService.uploadImage(dto.getGroupImage());
-        log.info(url);
+//        dto.setGroupImage(file);
+//
+//        String url = googleStorageService.uploadImage(dto.getGroupImage());
+//        log.info(url);
     }
 }

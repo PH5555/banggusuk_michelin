@@ -103,9 +103,10 @@ public class restaurantServiceTest {
         dto.setRating(3);
         dto.setComment("delicious");
         dto.setGroupId(group.get("groupId").toString());
-        dto.setImage(file);
+        dto.setLongitude("17");
+        dto.setLatitude("16");
 
-        Map<String, Object> restaurant = restaurantService.createRestaurant(dto, principal);
+        Map<String, Object> restaurant = restaurantService.createRestaurant(dto, null, principal);
 
         //4. 데이터 검증
         int restaurantId = (int) restaurant.get("restaurantId");
@@ -140,7 +141,7 @@ public class restaurantServiceTest {
         dto.setComment("delicious");
         dto.setGroupId(group.get("groupId").toString());
 
-        Map<String, Object> restaurant = restaurantService.createRestaurant(dto, principal);
+        Map<String, Object> restaurant = restaurantService.createRestaurant(dto, null, principal);
 
         //4. 같은 식당 생성
         RestaurantCreationDto dto2 = new RestaurantCreationDto();
@@ -150,7 +151,7 @@ public class restaurantServiceTest {
         dto2.setComment("delicious good!");
         dto2.setGroupId(group.get("groupId").toString());
 
-        Map<String, Object> restaurant2 = restaurantService.createRestaurant(dto2, principal);
+        Map<String, Object> restaurant2 = restaurantService.createRestaurant(dto2, null, principal);
 
         //4. 데이터 검증
         assertThat(restaurant.get("restaurantId")).isEqualTo(restaurant2.get("restaurantId"));
@@ -183,7 +184,7 @@ public class restaurantServiceTest {
         dto.setGroupId(group.get("groupId").toString() + "1");
 
         //4. 데이터 검증
-        Assertions.assertThatThrownBy(() -> restaurantService.createRestaurant(dto, principal)).isInstanceOf(Exception.class);
+        Assertions.assertThatThrownBy(() -> restaurantService.createRestaurant(dto, null, principal)).isInstanceOf(Exception.class);
     }
 
     @MockCustomUser
@@ -211,6 +212,8 @@ public class restaurantServiceTest {
         dto.setRating(3);
         dto.setComment("delicious");
         dto.setGroupId(group.get("groupId").toString());
+        dto.setLatitude("16");
+        dto.setLongitude("17");
 
         RestaurantCreationDto dto2 = new RestaurantCreationDto();
         dto2.setRestaurantName("testRestaurant");
@@ -218,6 +221,8 @@ public class restaurantServiceTest {
         dto2.setRating(2);
         dto2.setComment("delicious");
         dto2.setGroupId(group.get("groupId").toString());
+        dto2.setLatitude("16");
+        dto2.setLongitude("17");
 
         RestaurantCreationDto dto3 = new RestaurantCreationDto();
         dto3.setRestaurantName("testRestaurant2");
@@ -225,6 +230,8 @@ public class restaurantServiceTest {
         dto3.setRating(1);
         dto3.setComment("delicious");
         dto3.setGroupId(group.get("groupId").toString());
+        dto3.setLatitude("16");
+        dto3.setLongitude("17");
 
         RestaurantCreationDto dto4 = new RestaurantCreationDto();
         dto4.setRestaurantName("testRestaurant3");
@@ -232,11 +239,13 @@ public class restaurantServiceTest {
         dto4.setRating(2);
         dto4.setComment("delicious");
         dto4.setGroupId(group.get("groupId").toString());
+        dto4.setLatitude("16");
+        dto4.setLongitude("17");
 
-        restaurantService.createRestaurant(dto, principal);
-        restaurantService.createRestaurant(dto2, principal);
-        restaurantService.createRestaurant(dto3, principal);
-        restaurantService.createRestaurant(dto4, principal);
+        restaurantService.createRestaurant(dto, null, principal);
+        restaurantService.createRestaurant(dto2, null, principal);
+        restaurantService.createRestaurant(dto3, null, principal);
+        restaurantService.createRestaurant(dto4, null, principal);
 
         List<RestaurantDto> result = restaurantService.searchRestaurant(3, group.get("groupId").toString());
         log.info(result.toString());
