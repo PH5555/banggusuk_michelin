@@ -30,7 +30,7 @@ public class RestaurantService {
         Optional<Restaurant> restaurant = restaurantRepository.findByAddress(restaurantCreationDto.getAddress());
         if(restaurant.isEmpty()){
             Restaurant newRestaurant = new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress(), restaurantCreationDto.getLatitude(), restaurantCreationDto.getLongitude());
-            if(!file.isEmpty()){
+            if(file != null){
                 newRestaurant.setImage(googleStorageService.uploadImage(file));
             }
             restaurant = Optional.of(newRestaurant);
