@@ -24,6 +24,12 @@ public class Restaurant {
     @Column
     private String image;
 
+    @Column
+    private float latitude;
+
+    @Column
+    private float longitude;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
