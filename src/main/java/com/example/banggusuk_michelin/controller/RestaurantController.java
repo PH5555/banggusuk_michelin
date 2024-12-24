@@ -25,7 +25,6 @@ public class RestaurantController {
 
     @PostMapping()
     public ApiResponse<Map<String, Object>> createRestaurant(RestaurantCreationDto restaurantCreationDto, @RequestParam(required = false) MultipartFile file, @AuthenticationPrincipal User user){
-        log.info(restaurantCreationDto.getRestaurantName());
         try {
             return ApiResponse.success(restaurantService.createRestaurant(restaurantCreationDto, file, user));
         } catch (Exception e) {

@@ -29,7 +29,7 @@ public class RestaurantService {
     public Map<String, Object> createRestaurant(RestaurantCreationDto restaurantCreationDto, MultipartFile file, User user) throws Exception {
         Optional<Restaurant> restaurant = restaurantRepository.findByAddress(restaurantCreationDto.getAddress());
         if(restaurant.isEmpty()){
-            Restaurant newRestaurant = new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress());
+            Restaurant newRestaurant = new Restaurant(restaurantCreationDto.getRestaurantName(), restaurantCreationDto.getAddress(), restaurantCreationDto.getLatitude(), restaurantCreationDto.getLongitude());
             if(!file.isEmpty()){
                 newRestaurant.setImage(googleStorageService.uploadImage(file));
             }

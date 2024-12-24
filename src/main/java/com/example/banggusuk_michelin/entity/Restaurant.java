@@ -24,6 +24,12 @@ public class Restaurant {
     @Column
     private String image;
 
+    @Column
+    private String latitude;
+
+    @Column
+    private String longitude;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
@@ -34,8 +40,10 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String restaurantName, String restaurantAddress) {
+    public Restaurant(String restaurantName, String restaurantAddress, String latitude, String longitude) {
         this.restaurantName = restaurantName;
         this.restaurantAddress = restaurantAddress;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }
