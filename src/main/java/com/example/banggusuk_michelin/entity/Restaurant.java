@@ -40,8 +40,10 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String restaurantName, String restaurantAddress) {
+    public Restaurant(String restaurantName, String restaurantAddress, String latitude, String longitude) {
         this.restaurantName = restaurantName;
         this.restaurantAddress = restaurantAddress;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 }
