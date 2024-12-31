@@ -30,9 +30,6 @@ public class Restaurant {
     @Column
     private String longitude;
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<RestaurantComment> comments = new ArrayList<>();
-
     @OneToMany(mappedBy = "restaurant")
     private List<RestaurantGroup> restaurantGroups = new ArrayList<>();
 

@@ -2,6 +2,7 @@ package com.example.banggusuk_michelin.dto;
 
 import com.example.banggusuk_michelin.entity.Restaurant;
 import com.example.banggusuk_michelin.entity.RestaurantComment;
+import com.example.banggusuk_michelin.entity.RestaurantGroup;
 import com.example.banggusuk_michelin.entity.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +21,22 @@ public class RestaurantDto {
 
     @Override
     public String toString() {
-        return "RestaurantDto [restaurantName=" + restaurantName + ", restaurantAddress=" + restaurantAddress + "]";
+        StringBuilder result = new StringBuilder();
+        for (RestaurantCommentDto commentDto : restaurantCommentDto) {
+            result.append(commentDto.getComment() + ", ");
+        }
+
+        return "RestaurantDto [restaurantName=" + restaurantName + ", restaurantAddress=" + restaurantAddress + ", comment=" + result + "]";
     }
 
-    public static RestaurantDto of(Restaurant restaurant){
+    public static RestaurantDto of(RestaurantGroup restaurantGroup){
         return new RestaurantDto(
-                restaurant.getRestaurantName(),
-                restaurant.getRestaurantAddress(),
-                restaurant.getImage(),
-                restaurant.getLatitude(),
-                restaurant.getLongitude(),
-                restaurant.getComments().stream().map(comment -> RestaurantCommentDto.of(comment, comment.getUser())).toList()
+                restaurantGroup.getRestaurant().getRestaurantName(),
+                restaurantGroup.getRestaurant().getRestaurantAddress(),
+                restaurantGroup.getRestaurant().getImage(),
+                restaurantGroup.getRestaurant().getLatitude(),
+                restaurantGroup.getRestaurant().getLongitude(),
+                restaurantGroup.getRestaurantComments().stream().map(comment -> RestaurantCommentDto.of(comment, comment.getUser())).toList()
         );
     }
 }

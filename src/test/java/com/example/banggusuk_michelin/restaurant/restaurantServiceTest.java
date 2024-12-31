@@ -218,7 +218,7 @@ public class restaurantServiceTest {
         dto.setRestaurantName("testRestaurant");
         dto.setAddress("testAddress");
         dto.setRating(3);
-        dto.setComment("delicious");
+        dto.setComment("very good");
         dto.setGroupId(group.get("groupId").toString());
         dto.setLatitude("16");
         dto.setLongitude("17");
@@ -227,7 +227,7 @@ public class restaurantServiceTest {
         dto2.setRestaurantName("testRestaurant");
         dto2.setAddress("testAddress");
         dto2.setRating(2);
-        dto2.setComment("delicious");
+        dto2.setComment("yummy");
         dto2.setGroupId(group.get("groupId").toString());
         dto2.setLatitude("16");
         dto2.setLongitude("17");
@@ -236,7 +236,7 @@ public class restaurantServiceTest {
         dto3.setRestaurantName("testRestaurant2");
         dto3.setAddress("testAddress2");
         dto3.setRating(1);
-        dto3.setComment("delicious");
+        dto3.setComment("awesome");
         dto3.setGroupId(group.get("groupId").toString());
         dto3.setLatitude("16");
         dto3.setLongitude("17");
@@ -245,7 +245,7 @@ public class restaurantServiceTest {
         dto4.setRestaurantName("testRestaurant3");
         dto4.setAddress("testAddress3");
         dto4.setRating(2);
-        dto4.setComment("delicious");
+        dto4.setComment("good");
         dto4.setGroupId(group.get("groupId").toString());
         dto4.setLatitude("16");
         dto4.setLongitude("17");
@@ -265,7 +265,7 @@ public class restaurantServiceTest {
         restaurantService.createRestaurant(dto4, null, principal);
         restaurantService.createRestaurant(dto5, null, principal);
 
-        List<RestaurantDto> result = restaurantService.searchRestaurant(0, group2.get("groupId").toString());
+        List<RestaurantDto> result = restaurantService.searchRestaurant(2, group.get("groupId").toString());
         result.forEach(e -> log.info(e.toString()));
 
         //4. 데이터 검증

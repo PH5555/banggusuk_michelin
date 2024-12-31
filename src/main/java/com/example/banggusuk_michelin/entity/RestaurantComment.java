@@ -25,8 +25,8 @@ public class RestaurantComment {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    @JoinColumn(name = "restaurant_group_id")
+    private RestaurantGroup restaurantGroup;
 
     public RestaurantComment() {
     }

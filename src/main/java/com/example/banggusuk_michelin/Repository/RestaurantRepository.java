@@ -2,6 +2,7 @@ package com.example.banggusuk_michelin.Repository;
 
 import com.example.banggusuk_michelin.entity.Group;
 import com.example.banggusuk_michelin.entity.Restaurant;
+import com.example.banggusuk_michelin.entity.RestaurantGroup;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
@@ -33,13 +34,4 @@ public class RestaurantRepository {
         query.setParameter("address", address);
         return query.getResultStream().findFirst();
     }
-
-    public List<Restaurant> findInCurrentGroup(Group group, int rating){
-        TypedQuery<Restaurant> query = em.createQuery("select rg.r from (select rg.restaurant as r from RestaurantGroup rg where rg.group = :group) as rg join rg.r.comments rc " +
-                "where rg.r.restaurantId = rc.restaurant.restaurantId group by rg.r.restaurantName having avg(rc.rating) >= :rating", Restaurant.class);
-        query.setParameter("group", group);
-        query.setParameter("rating", rating);
-        return query.getResultList();
-    }
-
 }
