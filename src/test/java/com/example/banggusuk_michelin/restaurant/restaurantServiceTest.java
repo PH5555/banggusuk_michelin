@@ -265,7 +265,7 @@ public class restaurantServiceTest {
         restaurantService.createRestaurant(dto4, null, principal);
         restaurantService.createRestaurant(dto5, null, principal);
 
-        List<RestaurantDto> result = restaurantService.searchRestaurant(2, group.get("groupId").toString());
+        List<RestaurantDto> result = restaurantService.searchRestaurant(2, group2.get("groupId").toString());
         result.forEach(e -> log.info(e.toString()));
 
         //4. 데이터 검증

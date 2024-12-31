@@ -50,12 +50,12 @@ public class RestaurantService {
 
         RestaurantComment savedComment = restaurantCommentRepository.save(restaurantComment);
 
-        Optional<RestaurantGroup> restaurantGroup = restaurantGroupRepository.searchRestaurantByGroupId(group.get().getGroupId());
+        Optional<RestaurantGroup> restaurantGroup = restaurantGroupRepository.searchRestaurantByGroupId(restaurant.get(), group.get().getGroupId());
         if(restaurantGroup.isEmpty()){
             restaurantGroupRepository.save(restaurant.get(), group.get(), savedComment);
         }
         else {
-            restaurantGroup.get().addComment(savedComment);
+            restaurantGroupRepository.addComment(restaurantGroup.get(), savedComment);
         }
 
         em.flush();

@@ -34,9 +34,10 @@ public class RestaurantGroupRepository {
         return restaurantGroup;
     }
 
-    public Optional<RestaurantGroup> searchRestaurantByGroupId(String groupId) {
-        TypedQuery<RestaurantGroup> query = em.createQuery("select r from RestaurantGroup r where r.group.groupId = :groupId", RestaurantGroup.class);
+    public Optional<RestaurantGroup> searchRestaurantByGroupId(Restaurant restaurant, String groupId) {
+        TypedQuery<RestaurantGroup> query = em.createQuery("select r from RestaurantGroup r where r.group.groupId = :groupId and r.restaurant = :restaurant", RestaurantGroup.class);
         query.setParameter("groupId", groupId);
+        query.setParameter("restaurant", restaurant);
         return query.getResultStream().findAny();
     }
 
