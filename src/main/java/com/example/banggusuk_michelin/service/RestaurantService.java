@@ -2,6 +2,7 @@ package com.example.banggusuk_michelin.service;
 
 import com.example.banggusuk_michelin.Repository.GroupRepository;
 import com.example.banggusuk_michelin.Repository.RestaurantCommentRepository;
+import com.example.banggusuk_michelin.Repository.RestaurantGroupRepository;
 import com.example.banggusuk_michelin.Repository.RestaurantRepository;
 import com.example.banggusuk_michelin.dto.RestaurantCreationDto;
 import com.example.banggusuk_michelin.dto.RestaurantDto;
@@ -23,6 +24,7 @@ public class RestaurantService {
     private final RestaurantCommentRepository restaurantCommentRepository;
     private final GroupRepository groupRepository;
     private final GoogleStorageService googleStorageService;
+    private final RestaurantGroupRepository restaurantGroupRepository;
     private final EntityManager em;
 
     @Transactional
@@ -33,7 +35,7 @@ public class RestaurantService {
             if(file != null){
                 newRestaurant.setImage(googleStorageService.uploadImage(file));
             }
-            restaurant = Optional.of(newRestaurant);
+            restaurant = Optional.of(restaurantRepository.save(newRestaurant));
         }
 
         Optional<Group> group = groupRepository.findGroupById(restaurantCreationDto.getGroupId());
@@ -41,20 +43,22 @@ public class RestaurantService {
             throw new Exception("잘못된 group id");
         }
 
-        restaurant.get().setGroup(group.get());
-        Restaurant savedRestaurant = restaurantRepository.save(restaurant.get());
+        Optional<RestaurantGroup> restaurantGroup = restaurantGroupRepository.searchRestaurantByGroupId(group.get().getGroupId());
+        if(restaurantGroup.isEmpty()){
+            restaurantGroupRepository.save(restaurant.get(), group.get());
+        }
 
         RestaurantComment restaurantComment = new RestaurantComment(
                 restaurantCreationDto.getComment(),
                 restaurantCreationDto.getRating());
 
-        restaurantComment.setRestaurant(savedRestaurant);
+        restaurantComment.setRestaurant(restaurant.get());
         restaurantComment.setUser(user);
 
         restaurantCommentRepository.save(restaurantComment);
         em.flush();
 
-        return Map.of("restaurantId", savedRestaurant.getRestaurantId());
+        return Map.of("restaurantId", restaurant.get().getRestaurantId());
     }
 
     @Transactional
