@@ -30,12 +30,8 @@ public class Restaurant {
     @Column
     private String longitude;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    private List<RestaurantComment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantGroup> restaurantGroups = new ArrayList<>();
 
     public Restaurant() {
     }
