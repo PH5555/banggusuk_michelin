@@ -18,6 +18,11 @@ public class RestaurantDto {
     private final String longitude;
     private final List<RestaurantCommentDto> restaurantCommentDto;
 
+    @Override
+    public String toString() {
+        return "RestaurantDto [restaurantName=" + restaurantName + ", restaurantAddress=" + restaurantAddress + "]";
+    }
+
     public static RestaurantDto of(Restaurant restaurant){
         return new RestaurantDto(
                 restaurant.getRestaurantName(),

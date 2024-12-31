@@ -33,6 +33,9 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<RestaurantComment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantGroup> restaurantGroups = new ArrayList<>();
+
     public Restaurant() {
     }
 

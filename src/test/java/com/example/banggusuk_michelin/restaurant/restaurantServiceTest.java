@@ -123,15 +123,18 @@ public class restaurantServiceTest {
         //1. 유저 생성
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User principal = (User)authentication.getPrincipal();
-
         userRepository.save(principal);
-        MockMultipartFile file = null;
+
         //2. 그룹 생성
         GroupCreationDto groupCreationDto = new GroupCreationDto();
         groupCreationDto.setGroupName("testGroup");
         groupCreationDto.setPassword("1234");
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, null, principal);
 
-        Map<String, Object> group = groupService.createGroup(groupCreationDto, file, principal);
+        GroupCreationDto groupCreationDto2 = new GroupCreationDto();
+        groupCreationDto2.setGroupName("testGroup2");
+        groupCreationDto2.setPassword("1234");
+        Map<String, Object> group2 = groupService.createGroup(groupCreationDto2, null, principal);
 
         //3. 식당 생성
         RestaurantCreationDto dto = new RestaurantCreationDto();
@@ -149,12 +152,12 @@ public class restaurantServiceTest {
         dto2.setAddress("testAddress");
         dto2.setRating(2);
         dto2.setComment("delicious good!");
-        dto2.setGroupId(group.get("groupId").toString());
+        dto2.setGroupId(group2.get("groupId").toString());
 
         Map<String, Object> restaurant2 = restaurantService.createRestaurant(dto2, null, principal);
 
         //4. 데이터 검증
-        assertThat(restaurant.get("restaurantId")).isEqualTo(restaurant2.get("restaurantId"));
+        assertThat(restaurant.get("restaurantGroupId")).isNotEqualTo(restaurant2.get("restaurantGroupId"));
     }
 
     @MockCustomUser
@@ -202,8 +205,13 @@ public class restaurantServiceTest {
         GroupCreationDto groupCreationDto = new GroupCreationDto();
         groupCreationDto.setGroupName("testGroup");
         groupCreationDto.setPassword("1234");
-        MockMultipartFile file = null;
-        Map<String, Object> group = groupService.createGroup(groupCreationDto, file, principal);
+        Map<String, Object> group = groupService.createGroup(groupCreationDto, null, principal);
+
+        //2-2 그룹 생성
+        GroupCreationDto groupCreationDto2 = new GroupCreationDto();
+        groupCreationDto2.setGroupName("testGroup2");
+        groupCreationDto2.setPassword("12345");
+        Map<String, Object> group2 = groupService.createGroup(groupCreationDto2, null, principal);
 
         //3. 식당 생성
         RestaurantCreationDto dto = new RestaurantCreationDto();
@@ -242,14 +250,25 @@ public class restaurantServiceTest {
         dto4.setLatitude("16");
         dto4.setLongitude("17");
 
+        RestaurantCreationDto dto5 = new RestaurantCreationDto();
+        dto5.setRestaurantName("testRestaurant3");
+        dto5.setAddress("testAddress3");
+        dto5.setRating(3);
+        dto5.setComment("delicious");
+        dto5.setGroupId(group2.get("groupId").toString());
+        dto5.setLatitude("16");
+        dto5.setLongitude("17");
+
         restaurantService.createRestaurant(dto, null, principal);
         restaurantService.createRestaurant(dto2, null, principal);
         restaurantService.createRestaurant(dto3, null, principal);
         restaurantService.createRestaurant(dto4, null, principal);
+        restaurantService.createRestaurant(dto5, null, principal);
 
-        List<RestaurantDto> result = restaurantService.searchRestaurant(3, group.get("groupId").toString());
-        log.info(result.toString());
+        List<RestaurantDto> result = restaurantService.searchRestaurant(0, group2.get("groupId").toString());
+        result.forEach(e -> log.info(e.toString()));
+
         //4. 데이터 검증
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result.size()).isEqualTo(1);
     }
 }

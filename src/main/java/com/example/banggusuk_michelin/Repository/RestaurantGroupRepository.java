@@ -17,11 +17,12 @@ public class RestaurantGroupRepository {
         this.em = em;
     }
 
-    public void save(Restaurant restaurant, Group group) {
+    public int save(Restaurant restaurant, Group group) {
         RestaurantGroup restaurantGroup = new RestaurantGroup();
         restaurantGroup.setRestaurant(restaurant);
         restaurantGroup.setGroup(group);
         em.persist(restaurantGroup);
+        return restaurantGroup.getId();
     }
 
     public Optional<RestaurantGroup> searchRestaurantByGroupId(String groupId) {

@@ -44,8 +44,9 @@ public class RestaurantService {
         }
 
         Optional<RestaurantGroup> restaurantGroup = restaurantGroupRepository.searchRestaurantByGroupId(group.get().getGroupId());
+        int restaurantGroupId = -1;
         if(restaurantGroup.isEmpty()){
-            restaurantGroupRepository.save(restaurant.get(), group.get());
+            restaurantGroupId = restaurantGroupRepository.save(restaurant.get(), group.get());
         }
 
         RestaurantComment restaurantComment = new RestaurantComment(
@@ -58,7 +59,7 @@ public class RestaurantService {
         restaurantCommentRepository.save(restaurantComment);
         em.flush();
 
-        return Map.of("restaurantId", restaurant.get().getRestaurantId());
+        return Map.of("restaurantId", restaurant.get().getRestaurantId(), "restaurantGroupId", restaurantGroupId);
     }
 
     @Transactional
